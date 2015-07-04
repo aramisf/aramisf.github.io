@@ -1,0 +1,324 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "smpl.h"
+// vim: foldmethod=manual
+
+#define POW_2(num) (1<<(num))
+#define VALID_J(j, s) ((POW_2(s-1)) >= j)
+
+// Os estados possiveis dos nodos
+#define DESCONHECIDO -1
+#define SEM_FALHA 0
+#define FALHO 1
+
+// Eventos
+#define test    1
+#define fault   2
+#define repair  3
+
+/***************** Aqui o codigo herdado do cisj.c ***************************/
+/* |-- node_set.h */
+typedef struct node_set {
+
+	int* nodes;
+	ssize_t size;
+	ssize_t offset;
+} node_set;
+
+static node_set* set_new(ssize_t size) {
+
+	node_set* new;
+
+	new = (node_set*)malloc(sizeof(node_set));
+	new->nodes = (int*)malloc(sizeof(int)*size);
+	new->size = size;
+	new->offset = 0;
+	return new;
+}
+
+static void set_insert(node_set* nodes, int node) {
+
+	if (nodes == NULL) return;
+	nodes->nodes[nodes->offset++] = node;
+}
+
+static void set_merge(node_set* dest, node_set* source) {
+
+	if (dest == NULL || source == NULL) return;
+
+	memcpy(&(dest->nodes[dest->offset]), source->nodes, sizeof(int)*source->size);
+	dest->offset += source->size;
+}
+
+static void set_free(node_set* nodes) {
+
+	free(nodes->nodes);
+	free(nodes);
+}
+/* node_set.h --| */
+
+// Retorna os nodos a serem testados pelo nodo i, na rodada s (q implica um
+// cluster de tamanho 2**s)
+node_set* cis(int i, int s) {
+
+	node_set* nodes, *other_nodes;
+	int xor = i ^ POW_2(s-1);
+	int j;
+
+	/* cria o nodo i com uma lista de nodos de tamanho 2**s */
+	nodes = set_new(POW_2(s-1));
+
+	/* insere o 1o valor na lista de tamanho 2**s */
+	set_insert(nodes, xor);
+
+	/* insere os outros recursivamente */
+	for (j=1; j<=s-1; j++) {
+
+		other_nodes = cis(xor, j);      // cria os outros nodos
+		set_merge(nodes, other_nodes);  // e insere-os na lista atual
+		set_free(other_nodes);
+	}
+
+    // No fim, sai com a lista completa do nodos a serem testados pelo nodo i
+	return nodes;
+}
+
+/***************************** /cisj.c ***************************************/
+
+/* descritor do nodo */
+typedef struct {
+
+    int id;     // identificador de facility SMPL
+    int *State; // vetor que armazena o estado de cada nodo do sistema
+    node_set* quem_testar;
+} tnodo;
+
+
+int main (int argc, char **argv) {
+
+    tnodo *nodo;        // Conjunto de nodos
+    static int N;       // numero de clusters
+
+    // Medidores de eventos:
+    int meu_status, nodo_aleatorio;
+    float momento_aleatorio1, momento_aleatorio2;
+
+    static char fa_name[5];
+    FILE *log;
+    char nome[15];
+
+    static int token,   // identificador do nodo
+               event, r,
+               i,j,k,   // contadores
+               qtde_nodos;
+
+    if (argc != 2) {
+
+        printf ("Uso correto: %s <numero de clusters>\n",argv[0]);
+        exit (1);
+    }
+
+    N = atoi(argv[1]);
+    qtde_nodos = POW_2(N);
+    srand(rand());
+
+    sprintf(nome, "%02d_nodos.log", qtde_nodos);
+    log = fopen(nome, "w");
+    smpl(0, "Um ex de simulacao");
+    reset();
+    stream(1);
+
+    /* iniciando o vetor de nodos */
+    nodo = (tnodo *) malloc (sizeof(tnodo)* qtde_nodos);
+    for (i=0; i < qtde_nodos; i++) {
+
+        memset (fa_name, '\0', 5);
+        sprintf (fa_name, "%d", i);
+        nodo[i].id = facility (fa_name, 1);
+        nodo[i].State = (int*) malloc(sizeof(int)*qtde_nodos);
+        // vizinhos desconhecidos por enquanto.
+        for (j=0; j < qtde_nodos; j++)
+            nodo[i].State[j] = (i==j)? SEM_FALHA : DESCONHECIDO;
+    }
+    // Ok, nodos iniciados.
+
+    /* escalonamento de eventos iniciais. Todo nodo tem q fazer os testes, pois
+     * pode ocorrer de um nodo falho se recuperar.*/
+    for (i=0; i < qtde_nodos; i++)
+
+        schedule (test, 30.0, i);
+
+
+    // Simulando um evento
+    nodo_aleatorio = random()%qtde_nodos;
+
+    // Um momento q seja mensuravel:
+    momento_aleatorio1 = random()%(90-31)+31;
+    srand(rand());
+    momento_aleatorio2 = random()%(90-31)+31;
+
+    // Causando evento
+    schedule(fault, momento_aleatorio1,  nodo_aleatorio);
+
+    // Para reparar eh necessario q exista uma falha
+    if (momento_aleatorio1 < momento_aleatorio2)
+        schedule(repair, momento_aleatorio2, nodo_aleatorio);
+
+    printf("Agendando 'fault' para nodo %d ",nodo_aleatorio);
+    printf("no instante de tempo %5.1f\n",momento_aleatorio1);
+    fprintf(log,"Agendando 'fault' para nodo %d ",nodo_aleatorio);
+    fprintf(log,"no instante de tempo %5.1f\n",momento_aleatorio1);
+
+    printf("Agendando 'repair' para nodo %d ",nodo_aleatorio);
+    printf("no instante de tempo %5.1f\n",momento_aleatorio2);
+    fprintf(log,"Agendando 'repair' para nodo %d ",nodo_aleatorio);
+    fprintf(log,"no instante de tempo %5.1f\n",momento_aleatorio2);
+
+    // Ok, tudo agendado e registrado em log. Agora iniciam-se os ciclos de
+    // teste.
+
+    while (time() < 100.0) {
+
+        cause(&event, &token);
+
+        switch (event) {
+
+            case test:
+                if (status(nodo[token].id) != 0) {
+                //if (nodo[token].estado == FALHO) {
+
+                    printf("Nodo %d esta falho no instante %5.1f\n",
+                    token,time());
+                    fprintf(log,"Nodo %d esta falho no instante %5.1f\n",
+                    token,time());
+                    break; // Se este nodo esta
+                           // falho, ele nao faz teste algum.
+                }
+                // Percorrendo os logN clusters, e verificando quais os nodos
+                // que devem ser testados em cada cluster:
+                for (i=1; i <= N; i++) {
+
+                    // Contabiliza os nodos a serem testados pelo nodo atual:
+                    nodo[token].quem_testar = cis(token,i);
+
+                    // Agora testamos os nodos do cluster ate ENCONTRAR O 1o
+                    // SEM-FALHA
+                    for (j=0; j < nodo[token].quem_testar->size; j++) {
+
+                        int sendo_testado = nodo[token].quem_testar->nodes[j];
+
+                        if (status(nodo[sendo_testado].id) != 0) {
+                        //if (nodo[sendo_testado].estado == FALHO) {
+                            printf("Sou o nodo %d, testei o nodo %d como falho no tempo %5.1f.\n",
+                                    token, sendo_testado, time());
+                            printf("    (estou no cluster %d de um total de %d)\n",
+                                    j+1,(int)nodo[token].quem_testar->size);
+                            fprintf(log,"Sou o nodo %d, testei o nodo %d como falho no tempo %5.1f.\n",
+                                    token, sendo_testado, time());
+                            fprintf(log, "    (estou no cluster %d de um total de %d,\n",
+                                    j+1,(int)nodo[token].quem_testar->size);
+                            nodo[token].State[sendo_testado] = FALHO;
+                            printf("    -> atualizando o nodo[%d].State[%d] como 'FALHO'\n",token,sendo_testado);
+                            fprintf(log,"    -> atualizando o nodo[%d].State[%d] como 'FALHO'\n",token,sendo_testado);
+                        }
+
+                        // * descobrir onde esta o indice do nodo, para usar
+                        // dentro do vetor State
+                        // R: tem q percorrer os vetor nodes, e olhar os
+                        // conteudos.
+                        else {
+                            printf("Sou o nodo %d, testei o nodo %d no tempo %5.1f sem falha\n",
+                                    token, sendo_testado, time());
+                            printf("    (estou no cluster %d de um total de %d)\n",
+                                    j+1,(int)nodo[token].quem_testar->size);
+                            fprintf(log,"Sou o nodo %d, testei o nodo %d no tempo %5.1f sem falha\n",
+                                    token, sendo_testado, time());
+                            fprintf(log, "    (estou no cluster %d de um total de %d)\n",
+                                    j+1,(int)nodo[token].quem_testar->size);
+                            nodo[token].State[sendo_testado] = SEM_FALHA;
+                            printf("    -> atualizando o nodo[%d].State[%d] como 'SEM_FALHA'\n",token,sendo_testado);
+                            fprintf(log,"    -> atualizando o nodo[%d].State[%d] como 'SEM_FALHA'\n",token,sendo_testado);
+
+                            // Atualizando informacoes do outro nodo. Se
+                            // estiverem disponiveis, adiciono os dados q ainda
+                            // nao tenho.
+
+                            // Se o nodo a ser testado ja possui dados disponiveis:
+                            if (nodo[sendo_testado].quem_testar != NULL)
+                            if (nodo[sendo_testado].quem_testar->size != 0)
+
+                            printf("Encontrei dados disponiveis no nodo %d, analisando...",sendo_testado);
+                            fprintf(log, "Encontrei dados disponiveis no nodo %d, analisando...",sendo_testado);
+                            // Percorro os nodos do cluster atual:
+                            for (k=0; k<nodo[token].quem_testar->size; k++) {
+
+                                int indice = nodo[token].quem_testar->nodes[k];
+
+                                int a;
+                                for (a=0; a<qtde_nodos; a++) {
+                                    // E se nao houver informacao disponivel
+                                    // procuro tal informacao nos dados do nodo
+                                    // sendo testado.
+                                    if (a == indice &&
+                                    //if (nodo[token].State[indice] == -1 &&
+                                        nodo[token].State[a] == -1 &&
+                                        nodo[sendo_testado].State[a] != -1) {
+
+                                        // registrando no log
+                                        fprintf(log,"\nEncontrei informacao sobre ");
+                                        fprintf(log,"o nodo %d ao testar o nodo ",a);
+                                        fprintf(log,"%d. Atualizando informacoes",sendo_testado);
+                                        fprintf(log,"para o nodo %d\n", token);
+
+                                        nodo[token].State[a] = nodo[sendo_testado].State[a];
+                                    }
+                                }
+                            }
+
+                            printf(" feito.\n");
+                            fprintf(log, " feito.\n");
+                            break;
+                        }
+                    } // /for dos nodos de dentro do cluster atual
+
+                }
+
+                printf("Vetor de testes do nodo %d: \n", token);
+                fprintf(log,"Vetor de testes do nodo %d: \n", token);
+
+                for (i=0; i<qtde_nodos; i++) {
+                    printf("nodo %d: '%d'\n",i, nodo[token].State[i]);
+                    fprintf(log,"nodo %d: '%d'\n",i, nodo[token].State[i]);
+                }
+                printf("\n\n");
+                fprintf(log,"\n\n");
+                schedule(test, 30.0, token);
+                break;
+
+            case fault:
+
+                r = request(nodo[token].id, token, 0);
+                if (r != 0) {
+
+                    printf("Nao consegui falhar o nodo %d\n\n", token);
+                    fprintf(log,"Nao consegui falhar o nodo %d\n\n", token);
+                    fclose(log);
+                    exit(1);
+                }
+                printf ("O nodo %d falhou no tempo %5.1f\n\n",token, time());
+                fprintf (log, "O nodo %d falhou no tempo %5.1f\n\n",token, time());
+                break;
+
+            case repair:
+
+                printf("O nodo, %d recuperou no tempo %5.1f\n\n", token, time());
+                fprintf(log, "O nodo, %d recuperou no tempo %5.1f\n\n", token, time());
+                release (nodo[token].id, token);
+                schedule(test, 30.0, token);
+                break;
+        } // switch
+    } // while
+
+    fclose(log);
+} // main

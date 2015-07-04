@@ -1,0 +1,14 @@
+all: hi_adsd
+
+hi_adsd: hi_adsd.o smpl.o rand.o
+	$(LINK.c) -o $@ -Bstatic hi_adsd.o smpl.o -lm
+
+smpl.o: smpl.c smpl.h
+	$(COMPILE.c)  -g smpl.c
+
+hi_adsd.o: hi_adsd.c smpl.h
+	$(COMPILE.c) -g  hi_adsd.c
+
+clean:
+	$(RM) *.o hi_adsd
+

@@ -1,0 +1,46 @@
+<html>
+<head> <title>Fase 1</title> </head>
+<body>
+<h1>Relatorio da Fase1 do Trabalho Pratico</h1>
+
+Os arquivos de log podem ser observados <a href="logs/">aqui</a>. Observe que os
+nomes dos arquivos explicitam o numero de nodos existentes no sistema.<br><br>
+
+Os codigos fonte utilizados foram:
+<ul>
+    <li><a href='hi_adsd.c.txt'>hi_adsd.c<a>
+    <li><a href='makefile.txt'>makefile<a>
+    <li><a href='smpl.h.txt'>smpl.h<a>
+    <li><a href='smpl.c.txt'>smpl.c<a>
+    <li><a href='../../elias/sisdis/cisj.c.txt'>cisj.c<a>
+</ul>
+<br>
+<p>Para a implementacao deste trabalho, decidi utilizar o codigo da funcao
+<b>cisj</b> <a href="../../elias/sisdis/cisj.c.txt">fornecida pelo
+professor</a>, e parte do codigo das tarefas passadas como exercicio.</p>
+
+<p>O evento gerado e o nodo que sofrera o evento sao escolhidos aleatoriamente,
+com a ressalva de que o tempo de ocorrencia do evento (de falha ou recuperacao)
+seja maior q o tempo do primeiro teste e menor que o tempo final de
+execucao. Isso eh garantido via comparacoes feitas no codigo e com o auxilio de
+funcoes geradoras de numeros aleatorios, disponibilizadas pelas bibliotecas do
+sistema (note que a aleatoriedade dessas funcoes eh simulada).</p>
+
+<p>Pode se observar no codigo que ha um teste feito para escolher aleatoriamente um
+instante de tempo onde o nodo falho se recupere, desde que o instante sorteado
+seja posterior ao instante de falha.</p>
+
+<p>Para sistemas com tamanho a partir de 32 nodos, pode-se observar que o
+intervalo de tempo escolhido foi insuficiente para a realizacao de todos os
+testes. E isso se mostra no vetor <i>State</i> de cada nodo, que contem valores
+desconhecidos para alguns indices.</p>
+
+<p>Para compilar e executar o programa, basta rodar o comando make, que utiliza
+este <a href='makefile'>makefile</a> e executar <br><br>
+
+./hi_adsd &lt;numero de clusters&gt;<br><br>
+
+onde &lt;numero de clusters&gt; eh a potencia de 2 que define o numero total de
+nodos do sistema.
+</body>
+</html>

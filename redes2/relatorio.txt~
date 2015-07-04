@@ -1,0 +1,70 @@
+Trabalho de Redes 2 - Calculadora Remota:
+
+# character encoding: utf-8
+
+Alunos:
+ - Aramis S. H. Fernandes GRR20034170
+ - Osmar S. A. Malicheski GRR20073571
+
+
+Apresentação:
+
+
+ - O trabalho consiste em estabelecer a comunicação entre duas máquinas na rede.
+   Considerando que entre elas existe até n-1 máquinas intermediárias.
+   N foi estabelecido como maior ou igual a 3;
+
+ - A implementação contém definições para o cliente e os servidores. Foram
+   definidos 2 tipos básicos de servidores:
+
+    - um que aceita a conexão do cliente, e conecta-se com a próxima máquina da
+      lista de máquinas fornecida (obrigatoriamente);
+
+    - um servidor final, que apenas aceita conexões e não se conecta com ninguém.
+
+
+Detalhes da implementação:
+
+
+ - O trabalho consiste de 4 arquivos:
+   - 1 programa python;
+   - 2 bibliotecas contendo as definições de cliente e servidor;
+   - 1 arquivo de configuração, que determina as N máquinas servidoras e suas
+     respectivas portas de escuta. A ordem de aparecimento das máquinas neste
+     arquivo é considerada a ordem cujas máquinas se conectarão.
+
+   ** +1 arquivo de log que é gerado ao final da execução dos programas.
+
+ - Como existe um arquivo de configuração que determina quais são as máquinas
+   servidoras e qual é a sua ordem de conexão, foi descartada a checagem de
+   aceitação de conexão pelo servidor (com verificação de ip do cliente que
+   tenta se conectar);
+
+ - No arquivo de log as mensagens das máquinas ficam registradas conforme a
+   máquina, isso se deve à forma como o python gerencia a escrita em arquivos em
+   paralelo. A pedido do professor, o arquivo de log principal foi editado
+   considerando a estampa de tempo como base para ordenação de mensagens, com o
+   objetivo de demonstrar o caminho percorrido pelas mensagens trocadas entre as
+   máquinas;
+
+   - Quando uma conexão é aceita (em modo servidor) e quando é efetuada (em modo
+     cliente), mensagens são registradas no log. Portanto, pode-se ver que as
+     mensagens de envio e recebimento são registradas duas vezes pelas máquinas
+     intermediárias.
+
+
+
+Dificuldades:
+
+
+ - Tratar os diferentes tipos de erros de conexão (principalmente quando a rede
+   não tinha suporte ao IPv6 - como descobrir se a rede não suportava ou se o
+   programa continha erros);
+
+ - Ajustar as mensagens de log conforme cada caso (houveram muitas mudanças, mas
+   no final as mensagens foram simplificadas);
+
+ - Compreender alguns conceitos da implementação sugerida na especificação, que
+   foram esclarecidos posteriormente em sala.
+
+
