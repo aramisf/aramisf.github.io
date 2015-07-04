@@ -1,0 +1,10 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+#centro {
+    margin: 45px 50px;
+}
+#quadro {
+    position: relative;
+}

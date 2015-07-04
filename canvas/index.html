@@ -1,0 +1,447 @@
+<!--
+# vim: foldmethod=manual:ts=4:et:tw=0
+-->
+<!DOCTYPE HTML>
+<!-- Following the KISS principle, I choose to keep everything inside this code -->
+<html>
+    <head>
+        <title>Canvas, madafacas!</title>
+        <link rel="stylesheet" type="text/css" href="stilo.css">
+    </head>
+    <body oncontextmenu="javascript:return false;">
+        <div id="centro">
+            <canvas id="quadro" width=800 height=350 style="border:2px solid #5a5;"
+             onmouseout="limpaCoordenadas()">
+            </canvas>
+            <div id="coord">Coordinates: </div>
+            <div id="canto">Type in a number in the range 3 to 8 to generate a polygon:<br>
+                <input type="text" id="num" size="4">
+                <input type="button" value="Go!" onclick="geraPoligono()">
+                <input type="button" value="Gimme back that old line!" onclick="geraReta()">
+                <i>(Bullet proofed system)</i><br><br>
+                Click on the vertices to move them;<br>
+                Click on the center of one line to move it;<br>
+                Click on the center with right button to create a new vertex.
+            </div>
+        </div>
+        <div id="debug"></div>
+        <script type="text/javascript">
+
+            // Vamos manter um conjunto de variaveis globais aqui:
+            var canvas = document.getElementById("quadro");
+            var context = canvas.getContext('2d');
+
+            var A = new ponto(50,175);
+            var B = new ponto(750,175);
+
+            var grab = false;
+            var botaoDireito = false;
+            var modoPoligono = false;
+            var minDist = 30;
+            var moveReta = null;    // indica se moveremos a reta ou a linha toda
+            var maisProximo;        // Ponto da area clicavel mais proximo do
+                                    // ponteiro do mouse
+
+            var vertices = new listaDePontos();
+            var centros = new listaDePontos();
+            vertices.append(A);
+            vertices.append(B);
+
+            // DEBUG FTW
+            function debuga (msg) {
+
+                document.getElementById("debug").innerHTML = msg;
+            }
+
+            // Objeto ponto, com informacoes referentes `a sua natureza
+            function ponto (x, y, vertice) {
+
+                this.x = x ? x : canvas.width/2;
+                this.y = y ? y : canvas.height/2;
+
+                // Se nao eh vertice, entao eh uma aresta
+                this.vertice = (vertice == false) ? vertice : true;
+
+                this.ant = null;
+                this.prox = null;
+            }
+
+            /** Uma lista de vertices, com operacoes proprias para manter uma
+             * estrutura ordenada, facilitando o desenho de um poligono.
+             */
+            function listaDePontos() {
+
+                this.l = Array();
+
+                /* Um append simples, que eh feito somente nos casos onde se
+                 * conhece a ordem dos vertices a serem inseridos. Caso a ordem
+                 * seja desconhecida, use o metodo 'noMeio'
+                 */
+                this.append = function (ponto) {
+
+                    if (this.l.length == 0) {
+
+                        this.l[this.l.length] = ponto;
+                        this.l[this.l.length-1].ant = null;
+                        this.l[this.l.length-1].prox = null;
+                    }
+                    else {
+
+                        this.l[this.l.length-1].prox = ponto;
+                        this.l[this.l.length] = ponto;
+                        this.l[this.l.length-1].ant = this[this.l.length-2];
+                    }
+                }
+
+
+                /* Insere um ponto entre dois outros.
+                 * Parametros:
+                 * - anterior: o indice do ponto precedente ao ponto sendo
+                 * inserido agora;
+                 * - este: o ponto sendo inserido agora;
+                 * - proximo: o indice do ponto seguinte ao ponto sendo
+                 * inserido(talvez desnecessario).
+                 */
+                this.noMeio = function (anterior, este) {
+
+                    this.l.splice(anterior+1,0,este);
+                }
+
+                // Retorna o indice do ponto fornecido
+                this.indice = function(ponto) {
+
+                    for (var i=0; i < this.l.length; i++) {
+
+                        if (this.l[i].x == ponto.x &&
+                            this.l[i].y == ponto.y)
+
+                            return i;
+                    }
+                    return -1;
+                }
+            }// fim do objeto listaDePontos
+
+
+            // Retorna as coordenadas do ponteiro do mouse.
+            function coordenadas(canvas, evt) {
+
+                var rect = canvas.getBoundingClientRect();
+                return {
+                    x: evt.clientX - rect.left,
+                    y: evt.clientY - rect.top
+                };
+            }
+
+
+            /** Retorna a distancia entre dois vertices, como um par ordenado.
+             * Uma vez que um ponto em um plano eh representado por duas
+             * coordenadas, cada um dos parametros eh um par ordenado. Uso esta
+             * funcao para descobrir se o ponteiro do mouse esta localizado em
+             * uma area clicavel.
+             */
+            function calculaDist(c1,c2,abs) {
+
+                var myDist = { };
+
+                if (abs == 0) {
+
+                    myDist.x = c2.x - c1.x;
+                    myDist.y = c2.y - c1.y;
+                }
+                if (abs == 1) {
+
+                    myDist.x = Math.abs(c2.x - c1.x);
+                    myDist.y = Math.abs(c2.y - c1.y);
+                }
+
+                return myDist;
+            }
+
+
+            /** Testa se a coordenada fornecida eh clicavel, uma regiao clicavel
+             * eh aquela que esta a <minDist> de um ponto central ou uma aresta.
+             * Retorna o indice do ponto localizado na regiao clicavel ou null
+             */
+            function areaClicavel(mause) {
+
+                for (var i=0; i < vertices.l.length; i++) {
+
+                    var myDist = calculaDist(vertices.l[i],mause,1);
+
+                    if (myDist.x <= minDist && myDist.y <= minDist) {
+
+                        // Estamos em uma area clicavel
+                        maisProximo = vertices.l[i];
+                        debuga("Found ("+maisProximo.x+
+                               ", "+maisProximo.y+
+                               ") as the nearest vertex");
+
+                        moveReta = false;
+                        return true;
+                    }
+                    else {
+
+                        debuga("Non-clickable area");
+                        // Area nao clicavel:
+                        maisProximo = null;
+                    }
+                }
+
+                for (var i=0; i < centros.l.length; i++) {
+
+                    var myDist = calculaDist(centros.l[i],mause,1);
+
+                    if (myDist.x <= minDist && myDist.y <= minDist) {
+
+                        // Estamos em uma area clicavel
+                        maisProximo = centros.l[i];
+                        debuga("Found ("+maisProximo.x+
+                               ", "+maisProximo.y+
+                               ") as the nearest center");
+
+                        moveReta = true;
+                        return true;
+                    }
+                    else {
+
+                        debuga("Non-clickable area");
+                        // Area nao clicavel:
+                        maisProximo = null;
+                    }
+                }
+
+                return false;
+            }
+
+            // Interacao com o usuario:
+            function mostraCoordenadas(x,y) {
+                document.getElementById("coord").innerHTML = "Coordinates: "+x+", "+y;
+            }
+
+            function limpaCoordenadas() {
+                document.getElementById("coord").innerHTML = "Coordinates: ";
+            }
+
+
+            /** Recebe a coordenada do mouse, conforme o caso, move uma aresta
+             * ou um vertice
+             */
+            function riscaCanvas (mauseCoord) {
+
+                // Processo para desenhar uma linha reta
+                context.beginPath();
+                context.clearRect(0, 0, canvas.width, canvas.height);
+
+                context.moveTo(vertices.l[0].x, vertices.l[0].y);
+                for (var i=1; i < vertices.l.length; i++)
+                        context.lineTo(vertices.l[i].x, vertices.l[i].y);
+
+                if (modoPoligono == true)
+                    context.closePath();
+
+                context.stroke();
+
+                // Atualiza valores globais, para redesenhar posteriormente:
+                if (maisProximo != null) {
+
+                    // Se for um vertice, basta atualizar seus valores
+                    if (moveReta == false) {
+
+                        var indMP = vertices.indice(maisProximo);
+                        vertices.l[indMP].x = mauseCoord.x;
+                        vertices.l[indMP].y = mauseCoord.y;
+                    }
+
+                    // Se for uma aresta, deve-se move-la completamente
+                    else {
+
+                        var indMP = centros.indice(maisProximo);
+                        var desloc = calculaDist(centros.l[indMP],mauseCoord,0);
+
+                        centros.l[indMP].ant.x += desloc.x;
+                        centros.l[indMP].ant.y += desloc.y;
+                        centros.l[indMP].prox.x += desloc.x;
+                        centros.l[indMP].prox.y += desloc.y;
+                        centros.l[indMP].x += desloc.x;
+                        centros.l[indMP].y += desloc.y;
+
+                    }
+
+                }// fim -> if (maisProximo != null)
+            }
+
+            /** Simplesmente retorna o centro dentre 2 vertices
+             */
+            function retornaCentro(a,b) {
+
+                var centro = new ponto();
+                centro.vertice = false;
+
+                // Quando a reta for horizontal
+                if (Math.abs(b.x - a.x) == 0)
+                    centro.x = a.x;
+
+                else
+                    centro.x = Math.round(Math.abs((b.x - a.x)/2 + a.x));
+
+
+                // Quando a reta for vertical
+                if (Math.abs(b.y - a.y) == 0)
+                    centro.y = a.y;
+
+                else
+                    centro.y = Math.round(Math.abs((b.y - a.y)/2 + a.y));
+
+                //alert("Retornando centro: "+centro.x+", "+centro.y);
+                return centro;
+            }
+
+            /** Existem 3 casos onde se deve calcular o centro:
+             * - quando atual eh vertice de grau 1;
+             *   - e tem vizinho `a direita;
+             *   - e tem vizinho `a esquerda;
+             * - quanto atual eh vertice de grau 2.
+             */
+            function calculaCentros() {
+
+                var centro;
+                var i=0;
+
+                for (i=0; i < vertices.l.length; i++) {
+
+                    if (modoPoligono == false) {
+
+                        if (vertices.l[i+1] != null) {
+
+                            centro = retornaCentro(vertices.l[i],vertices.l[i+1]);
+                            centro.ant = vertices.l[i];
+                            centro.prox = vertices.l[i+1];
+                            centros.l[i] = centro;
+                        }
+                    }
+
+                    if (modoPoligono == true) {
+
+                        centro = retornaCentro(vertices.l[i],vertices.l[(i+1)%vertices.l.length]);
+                        centro.ant = vertices.l[i];
+                        centro.prox = vertices.l[(i+1)%vertices.l.length];
+                        centros.l[i] = centro;
+                    }
+                }
+            } // /calculaCentros
+
+            /** Esta funcao adiciona um vertice novo a lista de vertices, e um
+             * novo ponto a lista de arestas. O que precisa ser feito:
+             * - alterar a aresta para vertice (nodo.vertice = true);
+             * - remover a aresta da lista de arestas;
+             * - recalcular os centros.
+             */
+            function adicionaVertice() {
+
+                if (maisProximo.vertice == true)
+                    return false;
+
+                var idx = centros.indice(maisProximo);
+                if (idx < 0)
+                    return false;
+
+                maisProximo.vertice = true;
+                vertices.noMeio(idx,maisProximo);
+                centros.l.splice(idx,1);    // Remove o elemento da lista de arestas
+                moveReta = false;           // Pq agora nao eh mais aresta
+            }
+
+            /** Agora a parte final, que pergunta um numero (entre 3 e 8)
+             * conforme especificacao, e ele gera um poligono com o numero de
+             * lados escolhido pelo usuario.
+             */
+             function geraPoligono () {
+
+                var num = document.getElementById("num").value;
+                if (3 <= num && num <= 8) {
+
+                    var tam = 150;
+                    var X = canvas.width/2;
+                    var Y = canvas.height/2;
+                    var pt = new ponto((X + tam * Math.cos(0)),(Y + tam * Math.sin(0)));
+
+                    vertices.l = [];
+                    vertices.append(pt);
+
+                    for (var i=1; i < num; i++) {
+                        pt = new ponto((X + tam * Math.cos(i * 2 * Math.PI / num)),
+                                       (Y + tam * Math.sin(i * 2 * Math.PI / num)));
+                        vertices.append(pt);
+                    }
+                    modoPoligono = true;
+                    maisProximo = null;
+                    riscaCanvas();
+                }
+                else {
+
+                    document.getElementById("centro").innerHTML = "<img src='tlee.jpg'></img>";
+                    if (document.getElementById("debug") != null)
+                        document.getElementById("debug").innerHTML = "";
+                    if (document.getElementById("coord") != null)
+                        document.getElementById("coord").innerHTML = "";
+                }
+             }
+
+            /** Soh p gerar a reta inicial */
+            function geraReta () {
+
+                vertices.l = [];
+                vertices.append(A);
+                vertices.append(B);
+                modoPoligono = false;
+                maisProximo = null;
+                riscaCanvas();
+            }
+
+/***********************************************************************/
+            // INICIO:
+            // Aqui eh feito o desenho inicial, um risco no centro do canvas:
+            riscaCanvas();
+            calculaCentros();
+
+            // Depois disso sao adicionados os eventos:
+            canvas.addEventListener("mousedown", function (evt) {
+
+                var mause = coordenadas(canvas, evt);
+                if (areaClicavel(mause) && maisProximo != -1) {
+                    grab = true;
+                }
+            }
+            , false);
+
+            canvas.addEventListener('contextmenu', function (evt) {
+
+                var mause = coordenadas(canvas, evt);
+                if (areaClicavel(mause) && maisProximo != -1)
+                    adicionaVertice();
+
+
+            }, false);
+
+            canvas.addEventListener('mouseup', function (evt) {
+
+                grab = false;
+                calculaCentros();
+                maisProximo = -1;
+
+            }, false);
+
+            canvas.addEventListener('mousemove', function(evt) {
+
+                var mause = coordenadas(canvas, evt);
+                mostraCoordenadas(mause.x,mause.y);
+
+                if (grab)
+                    riscaCanvas(mause);
+
+            }, false);
+
+
+        </script>
+    </body>
+</html>
