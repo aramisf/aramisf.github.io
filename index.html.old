@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+  <meta charset="UTF-8">
+  <head>
+    <title>/\ |Z /\ |\/| | Z</title>
+    <script type="text/javascript" src="script.js"></script>
+  </head>
+
+  <body bgcolor="black" text="white" id="main" onload=desenha_pagina()>
+    <span id="mp3"></span>
+    <center>
+    <br><h1><span id="maHeader" onClick=traduiz()></span></h1><br>
+    </center>
+    <table cellpadding="3">
+    <tr>
+    <td>
+    <img src="./pix/morph.jpg" onClick=toca_som()>
+    <audio autoplay loop id='audiotag'>
+      <source id='som' src='./music/hero.ogg' type="audio/ogg">
+    </audio>
+    </td>
+    <td>
+    <h3><span id="toTranslate" onClick=traduiz()></span></h3>
+    </td>
+    </tr>
+    </table>
+    <br><br>
+    <center>
+    <h4><a href=surf.html>Do you like surfing the web?</a></h4>
+    </center>
+
+  <noscript>
+    <center>
+    <h2>
+    <br>Your Browser does not support Javscript.<br><br>
+    </h2>
+    <img src="pix/bushdisa.jpg">
+    </center>
+  </noscript>
+
+  </body>
+
+</html>
