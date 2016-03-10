@@ -1,0 +1,506 @@
+<HTML>
+<HEAD>
+<TITLE>CDNE Chapter 11 - Artificial Intelligence</TITLE>
+</HEAD>
+<BODY BGCOLOR="#c9e1fc" BACKGROUND="background.gif" LINK="#666666" ALINK="#ff0000" VLINK="#999999" LEFTMARGIN=24 TOPMARGIN=18>
+<P ALIGN=CENTER><font size=2 face="Times New Roman"><a href="ch10web.htm"><img src="arrowleft.gif" width="45" height="54" align="absmiddle" name="ch1web.htm" border="0"></a><font face="Arial, Helvetica, sans-serif" size="+1" color="#999999"> 
+  <a href="mainindex.htm">INDEX</a> </font><a href="ch12web.htm"><img src="arrowright.gif" width="45" height="54" align="absmiddle" border="0"></a></font><font color=BLUE><b></b></font><font color=BLUE><b></b></font><FONT COLOR=BLUE><B></b></FONT></P>
+<p align="center"><FONT SIZE=2 FACE="Times New Roman"></FONT> <FONT SIZE=2 FACE="Times New Roman"><B><font size="+2">Chapter 
+  11<br>
+  ARTIFICIAL INTELLIGENCE</font></B></FONT></p>
+<table width="620" border="0" align="center">
+  <tr>
+    <td>
+      <p><font face="Times New Roman">Discussions about artificial intelligence 
+        (AI) are frequent in many contexts, not least in those that are treated 
+        in this book. That's why I've given AI a chapter of its own.</font><font size=2 face="Times New Roman"><font size="3"></font></font></p>
+      <p><font face="Times New Roman">AI is a multi-disciplinary science, encompassing 
+        electronics, computer science, psychology, sociology, philosophy, religion, 
+        medicine, and mathematics. This is by no means an exaggeration; creating 
+        AI entails knowing how &quot;normal&quot; intelligence works, which is 
+        easier said than done - since the only object we know with certainty to 
+        be intelligent is the human brain. AI ultimately concerns the study of 
+        behavioral sciences in order to build models based on natural science. 
+        Our intelligence, it has been discovered, is strongly connected to our 
+        way of knowing the world, or our perception.</font></p>
+      <p><font face="Times New Roman">AI research is a hot item at the universities, 
+        and not without reason: for the first time in history, there is <i>money</i> 
+        to be made in AI. Companies that are increasingly employing electronic 
+        means for communication and administration are in need of computer programs 
+        to handle routine tasks, like sorting electronic mail or maintaining inventory. 
+        So-called intelligent <i>agents</i> are marketed, customized for various 
+        standardized electronic tasks. From a cynical perspective, one could say 
+        that industry for the first time can replace thinking humans with machines 
+        in areas no one had thought could be automated. (I should add that it 
+        can hardly be called <i>automation</i>, since the truly intelligent programs 
+        actually <i>think</i>, as opposed to just acting according to a list of 
+        rules).</font></p>
+      <p><font face="Times New Roman">There is a number of approaches and orientations 
+        within AI. Among the most prominent there are: <i>expert systems</i> (large 
+        databases containing specific knowledge), <i>genetic algorithms</i> (simulated 
+        evolution of mathematical formulas, for example, to suit a certain purpose), 
+        and <i>neural networks</i> (imitation of the organizational structure 
+        of the brain, using independent, parallel-processing nerve cells).&nbsp;As 
+        information databases like those on the Internet become larger and more 
+        numerous, agents can work directly with the information without having 
+        to understand people. Why assign a person to do research when you might 
+        as well let an agent do it, more quickly and for less money? (Whoever 
+        has ever looked for information on the Internet will realize how useful 
+        a more intelligent search tool would be).</font></p>
+      <p><font face="Times New Roman">There is also research in the field of <i>artificial 
+        life</i>, which really are &quot;living&quot; organisms that live and 
+        reproduce in computer systems. Computer viruses constitute one form of 
+        artificial life, albeit somewhat unsophisticated and destructive. Artificial 
+        life has hitherto not achieved any substantial success. (Unless you want 
+        to view computer viruses and all the companies and consultants that make 
+        a living fighting them as a success - they have evidently boosted GNP).&nbsp;Research 
+        in the field of artificial life began with a program called <i>Life</i>,<i> 
+        </i>by <b>John Conway</b>, and was a mix between a computer game and calculated 
+        simulation. <b>Bill Gosper</b>, hacker at MIT, became virtually obsessed 
+        with this simulation. Later on, it was improved and renamed <i>Core Wars</i>, 
+        the idea being that many small computer programs would try to expand and 
+        fight over system memory (<i>core</i> memory), with the strongest ones 
+        surviving. The programs are exposed to various environmental factors similar 
+        to the demands put on real life: lonely or overcrowded individuals die, 
+        programs are exposed to mutation risks, system resources vary with time 
+        (daily rhythms), aging organisms die, etc. <b>Tom Ray</b> has been especially 
+        successful in the field with his <i>Tierra </i>program. His artificial 
+        life forms have, through simulated darwinistic evolution, managed to develop 
+        programming solutions to certain specific problems that were better than 
+        anything man-made.</font></p>
+      <p><font face="Times New Roman">I have already mentioned that hackers have 
+        a respect for artificial intelligence that is completely different from 
+        that of people in general. A person growing up constantly surrounded by 
+        computers does not see anything threatening in the fact that machines 
+        can think. He/she sees the denunciation of AI as a sort of racism directed 
+        towards a certain life form. If you criticize artificial intelligence, 
+        saying that <i>it can never be the same, only humans can think</i>, etc., 
+        then consider the fact that there is no scientific basis whatsoever for 
+        supposing that the human brain is anything but a machine, although it 
+        may be made of flesh.</font></p>
+      <p><font face="Times New Roman">These thoughts date back to <b>Ada Lovelace<i> 
+        </i></b>and <b>Charles Babbage</b>, two of the progenitors of computers, 
+        who discuss the subject in a piece called <i>Thinking Machines</i>, published 
+        in the 19th century. However, these ideas did not become widely known 
+        until the 1960's, through films such as the horror movie <i>Colossus - 
+        The Forbins Project</i> (1969), in which intelligent military computers 
+        take over the world. This notion also figures in the <i>Terminator</i> 
+        films, with the only significant difference being that the computer's 
+        name is <i>Skynet</i> - thus, not much new under the sun in popular sci-fi. 
+        The fear of artificial intelligence actually dates all the way back to 
+        <b>Mary Shelley's</b> <i>Frankenstein</i> (1818), and perhaps even further 
+        back in history.</font></p>
+      <p><font face="Times New Roman">In the fiction of Frankenstein, the fear 
+        of AI is personified. This story, about a scientist who creates a lethal 
+        intelligence, has become one of the new symbols of the industrialized 
+        world, in the same class as early Greek mythology. There is a connection 
+        between the Bible and Frankenstein, in that the creation (mankind in the 
+        Book of Moses, the monster in Frankenstein) rebel against its creator 
+        (God and human, respectively).&nbsp;In Judaic mythology there is a corresponding 
+        myth about the clay-man <b>Golem</b>, who runs amok when its master forgets 
+        to control the creature. It has occurred to me how far ahead of its time 
+        this myth was: Golem was made of clay, and computers are made of silicone, 
+        which is made from sand. The maker of Golem, <b>Rabbi L&#246;w</b>, feeds 
+        a piece of parchment with the name of God on it into the creature's mouth, 
+        in order to make it &quot;run&quot;. This is comparable to the engineer 
+        &quot;feeding&quot; software into the computer. To stop the runaway Golem, 
+        the Rabbi removes the parchment from its mouth, whereupon the creature 
+        collapses into a pile of dried mud, robbed of its spark of life.</font></p>
+      <p><font face="Times New Roman">Thus, the fear that mankind - like God - 
+        will create intelligent life from dead matter is found as early as in 
+        the two 19th-century myths described above. This rather unfounded fear 
+        of <i>rebellion against God</i> makes up the foundation of much of the 
+        hostility directed towards AI research. The fear is based in the Biblical 
+        myth of Adam and Eve eating the forbidden fruit, and the possibility that 
+        another creation will follow in our footsteps. I will, however, overlook 
+        these myths, and instead focus the argument on the philosophy underlying 
+        AI-research: <i>Pragmatism</i> with its heritage of Fallibilism, Nihilism, 
+        and Zen-philosophy. (Don't let these strange word discourage you from 
+        reading on!)</font></p>
+      <p><font face="Times New Roman">One could ask <i>why</i> scientists promptly 
+        have to try to create artificial intelligence. After all, there are already 
+        people, so why attempt to create something new, better, something alien? 
+        Asking this question of a scientist in the field is akin to asking a young 
+        couple why they promptly want to have children. Why raise a new generation 
+        that will question everything you have constructed? The answer is that 
+        it's something that simply just happens, or is done: it is a challenge, 
+        a desire to create something that will live on, an instinct for evolution. 
+        This is perhaps also what partly motivates hackers to create computer 
+        viruses: the pleasure of seeing something grow and propagate.</font></p>
+      <p><font face="Times New Roman">Our entire society and our lives are so 
+        interlinked that they cannot be separated. Society, machines, and humanity 
+        - everything has to progress. Evolution doesn't allow any closed doors, 
+        and AI is, in my view, only another step on the path of evolution. I see 
+        this as something positive, while others are terrified.&nbsp;At the same 
+        time, one shouldn't forget to note the <i>commercial</i> interests underlying 
+        the expansion of AI. Computers reading forms, sorting information, and 
+        distributing it, is obviously simply another way for the market to &quot;rationalize&quot; 
+        people out of the production chain, automating clerical work, and making 
+        the secretary and the accountant obsolete. The board of directors of a 
+        corporation is, as usual, only interested in making money and accumulating 
+        capital. <i>Wouldn't you?</i> What is the hidden nature of this complex 
+        entity (or as I would refer to it, <i>superentity</i>) that we call <i>&quot;the 
+        market&quot;</i>, and which constantly drives this process of development 
+        forward?</font></p>
+      <p><font face="Times New Roman">If you are interested in knowing more about 
+        AI and its philosophical aspects, it is to your advantage to read a book 
+        called <i>The Intelligent Age of Machines</i>, by <b>Raymond Kurzweil</b> 
+        (1990). To learn more about the inner workings of AI, read <b>Douglas 
+        Hofstadter's</b> <i>G&#246;del, Escher, Bach: An Eternal Golden Braid</i>, 
+        which is both an elevating and depressing work. In one respect, it is 
+        a scientific validation of Kafka's thesis: <i>to correctly comprehend 
+        something and at the same time misunderstand it are not mutually exclusive</i>, 
+        which is an observation that (fascinatingly enough) is akin to the paradoxes 
+        within Zen Buddhism, a religion that in some aspects border on pure philosophy. 
+        To explain some of AI's mechanisms, I need to explain some things about 
+        the part of Zen that is associated with philosophers like <b>Mumon</b>, 
+        and which has less to do with sitting around in a lotus position and meditating 
+        all day. Zen, in itself, is a philosophy that can be dissociated from 
+        Buddhism and viewed separately. Buddhism is based on respect for life, 
+        in all its forms, Zen, by itself, makes no such demands, being a non-normative, 
+        non-religious philosophy.</font></p>
+      <p><font face="Times New Roman"> <b>Zen, or the Art of Breaking Out of Formal 
+        Systems</b><br>
+        Zen has also become one of the most influential &quot;new age&quot; philosophies 
+        in the West during the 80's and 90's. Books like <i>Zen and the Art of 
+        Motorcycle Maintenance</i> sell amazingly well. among other things, Zen 
+        Buddhism suggests that the entity that Western tradition calls God (and 
+        what the Buddhists call the Brahma of the Buddha) is in fact a sum of 
+        all the independent processes in the universe, and not a sentient force. 
+        Therefore, God is equally present in the souls of humans as in the circuits 
+        of a computer or the cylinder shafts of a motorcycle. Put simply, Zen 
+        is one long search for the connection between natural processes, in the 
+        cosmos or the microcosmos, and this search in itself constitutes a process 
+        that interfaces with the others. Zen Buddhism is <i>the search in itself</i>, 
+        the point being that Zen (an abstract term for &quot;the answer&quot;) 
+        will never be found. Searching for Zen means that one continually come 
+        to a point where one answers a question with both <i>yes </i>and <i>no.</i> 
+        For example:</font></p>
+      <blockquote> 
+        <p><font face="Times New Roman">Q: Is the ball in the bottle?<br>
+          A: In one way, yes, if the bottle's inside is its inside, and in one 
+          way, no, if the bottle's outside is its inside.</font></p>
+      </blockquote>
+      <p><font face="Times New Roman">Zen constantly toys with our way of <i>defining</i> 
+        our environment, our method of labeling things as well as people. Zen 
+        teaches us to see through the inadequacies of out own language and assists 
+        us in dismantling fallacious systems, as in when, for example, we've gotten 
+        the idea that all criminals are swarthy (or that all hackers break into 
+        computer systems!). Zen is the thesis that no perfect formal systems exist, 
+        that <i>there is no</i> perfect way of perceiving reality. Kurt G&#246;del, 
+        the mathematician, proved that there are no perfect systems within the 
+        natural sciences, and the fact that there are no perfect systems within 
+        religion should be apparent to anyone who isn't a fundamentalist.</font></p>
+      <p><font face="Times New Roman">Zen could be said to be based on the following 
+        supposition:&nbsp;<i>The only absolute truth is that there are no absolute 
+        truths. </i>A paradox! - which is, naturally, a perfect starting point 
+        for the thesis that reality cannot be captured and all formal systems 
+        (like human language, mathematics, etc.) must contain errors. Even the 
+        proposition that reality is incomplete is incomplete! <i>Truth cannot 
+        be fully expressed in words</i> - hence the necessity of art and other 
+        forms of expression. I will end the discussion of Zen now, but hopefully 
+        you understand that many become confused and annoyed when one tries to 
+        explain Zen, given that the explanation is that there is no explanation. 
+        For example, note a quote by <b>William S. Burroughs</b>: <i>&quot;language 
+        is a virus from space&quot;</i>, expressing his frustration with the limitations 
+        of human language. Even Nietzsche criticized language, finding it hopelessly 
+        limited, and feminist <b>Dorothy Smith</b> has a theory concerning the 
+        use of language to control the distribution of power in society.<sup><a href="#FTNT1">(1)</a></sup> 
+        In the Western philosophical tradition, the equivalent of Zen is called 
+        <i>Fallibilism</i>, a philosophy based on the theory that all knowledge 
+        is preliminary. This has subsequently been developed into a philosophical 
+        theory called <i>pragmatism</i>, which views all formal systems as fallible, 
+        and thus judges them based on function rather than construction. G&#246;del's 
+        Incompleteness Theorem is probably the most tangible indication that this 
+        conception of the world is correct.<sup><a href="#FTNT2">(2)</a></sup></font></p>
+      <p><font face="Times New Roman">A lot of modern mathematical theory of so-called 
+        <i>non-formal systems</i> are associated with both Zen and Chaos theory. 
+        A non-formal system creates a formal system to solve a problem. In order 
+        to have a chance of understanding a (superficially) chaotic reality, we 
+        must first simplify it by creating formal systems on different levels 
+        of description, but also retain the capacity to break down these systems 
+        and create new ones. For example, we know that humans are made up of cells. 
+        We also know that we are made up of atoms, and as such, of pure energy. 
+        Nature invites to so many levels of description that we have to sift through 
+        them to find those that we need to complete the tasks we have selected. 
+        This is called intelligence.</font></p>
+      <p><font face="Times New Roman">There are also other philosophies that draw 
+        on parts of Zen: for example, <i>Tao</i> views contradictory pairs such 
+        as right/wrong or one/zero (the smallest building blocks of information) 
+        as holy entities, and focuses on finding the &quot;golden mean&quot; between 
+        them (the archetype is <i>Yin </i>and <i>Yang</i>, a kind of original 
+        contradictory pair). Our Western concept of thesis-antithesis-synthesis 
+        also belongs to this group. The strength - and weakness - in these approaches 
+        are that they instill in their followers a belief that <i>moderation is 
+        always best</i>, which can be both true and false according to Zen (depending 
+        on how you view it). All such attempts to force reality into formal systems 
+        are of course interesting, but definitely temporary and constantly subject 
+        to adaptation. Another philosophical system using this mode of thought 
+        was the pre-Christian Gnosticism, where the original opposites are <i>God 
+        </i>and <i>Matter</i>. These become intertwined within a sequence of <i>Aeons</i> 
+        (ages of time, imaginary worlds, or divine beings). Gnosticism probably 
+        originates (in turn) from an old Persian religion called <i>Parsism</i>, 
+        created by the well-known philosopher <b>Zarathustra</b>, who initially 
+        claimed that the world was based on such opposites.</font></p>
+      <p><font face="Times New Roman">Zen's way of thinking is partially a confirmation 
+        of the so-called <i>nihilistic</i> view of reality, in which objective 
+        truth does not exist, and partially a denial of it: it is simply a matter 
+        of point-of-view. Objective truth exists <i>inside</i> formal systems, 
+        whereas <i>outside </i>them, it does not. By breaking out of a formal 
+        system in which reality is described in terms of right and wrong, or intermediate 
+        terms such as <i>more right than wrong</i>, one finds a part of the core 
+        of intelligence. Being intelligent means being able to build an ordered 
+        system out of chaos, and thoroughly enough to be able to view one's own 
+        system from the inside and adjust one's own thoughts according to its 
+        rules. AI research has - in an amazing fashion - shown that this ability 
+        is completely vital to <i>any intelligent operation whatsoever</i>.</font></p>
+      <p><font face="Times New Roman">The difference between the real world and 
+        the one pictured inside the formal system of one's own creation has ruffled 
+        the feathers of such grandfathers of philosophy as Plato, Kant, and Schopenhauer. 
+        It has made them decide, after languishing analysis, that the real world 
+        is defective and incapable of approaching their own perfect, mathematical 
+        world of ideas. (Please note my mild insolence; as a 24-year-old layman 
+        I shouldn't be able to claim the right to even speak of these great philosophers. 
+        The alert reader would notice that I'm very busy questioning traditional 
+        authorities ;-). In science, this conflict is known as the subject-object 
+        controversy. Even in such &quot;hard&quot; sciences as physics this conflict 
+        has proved to be decisive, especially in <i>Bell's Theorem</i> (well-known 
+        among physicists), which has puzzled many a scientist. (I'm not going 
+        to go into the details of Bell's Theorem, but I'm employing it as a reference 
+        for those who are familiar with it).</font></p>
+      <p><font face="Times New Roman">When AI researchers sought the answer to 
+        the mystery of intelligence, they came into conflict with scientific paradigms. 
+        We need to use intelligence to understand intelligence. We need a blueprint 
+        for making blueprints; a theory of theoretical methods, a paradigm for 
+        building paradigms, etc. They found a paradox in which a formal system 
+        would be described in terms of another formal system. This is when they 
+        took G&#246;del's theorem to heart - a proof that all formal systems are 
+        paradoxical. The solution to the problem of creating a formal system for 
+        intelligence was self-reference, just like a neuron in the brain will 
+        change its way of processing information by - just that - processing information. 
+        The answer to intelligence wasn't tables, strict sets of rules, or mathematics. 
+        Intelligence wasn't mechanical. For intelligence to flourish, it would 
+        have to be partially <i>unpredictable</i>, <i>contradictory</i>, and <i>flexible.</i></font></p>
+      <p><font face="Times New Roman">Many hackers and net-users are devoted Zen-philosophers, 
+        not least because many of the functions within computers and networks 
+        are fairly contradictory. The section of computer science concerned with 
+        AI is self-contradictory to the highest degree. <i>Programming</i> is 
+        also the art of creating order from an initially chaotic system of possible 
+        instructions, culminating in the finished product of a computer program. 
+        If this section has been hard to understand, please read it again; it 
+        is worth comprehending.</font></p>
+      <p><font face="Times New Roman"> <b>Humans as Machines - The Computer as 
+        a Divine Creation<br>
+        </b>Most hackers view people as advanced machinery, and there's really 
+        nothing wrong with this; it is simply a new way of looking at things, 
+        another point of view within the multi-facetted science of psychology. 
+        Hackers in general are futurists, and to them the machine (and thus the 
+        human) is something beautiful and vigorous. I'll willingly admit that 
+        to a certain extent I also view humans as machines, but I'd like to tone 
+        that statement down a bit by saying that we (like computers) are <i>information 
+        processors</i> - we are born with certain information coded in our genes, 
+        and in growing up we assimilate more and more information from our environment. 
+        The result is a complex mass of information that we refer to as an <i>individual</i>. 
+        The process by which information is handled and stored in the individual 
+        is known as intelligence. The individual also interacts with the environment 
+        by symbolically absorbing and emitting pieces of information, and thereby 
+        becomes a part of an even larger process, which is in itself intelligent. 
+        (If you're of a religious persuasion, this could be taken as an example 
+        of hubris) But what about the <i>difference</i> between computers and 
+        humans?</font></p>
+      <p><font face="Times New Roman">Two things: the computer knows who has created 
+        it, and human life is clearly time-limited. It has been proposed that 
+        the uniqueness of a human &quot;soul&quot; is a product of just these 
+        two factors, and that it's therefore only uncertainty and finitude that 
+        makes life &quot;<i>worth living&quot;</i>. Of course, the theory could 
+        be challenged by proposing that its two premises are negotiable from a 
+        long-term perspective. Hereby the reader will have to draw his or her 
+        own metaphysical conclusions; the subject is virtually interminable, and 
+        the audience inexhaustible. <br>
+        </font></p>
+      <blockquote> 
+        <p><font face="Times New Roman"><i>&quot;I have seen things you humans 
+          can only dream of&#133; Burning attack cruisers off the shoulder of 
+          Orion&#133; I saw the C-rays glitter in the Tannhauser Gate&#133; All 
+          these moments will now be lost in time, like tears in the rain.&quot;</i></font></p>
+        <p><font face="Times New Roman">(The android Roy Beatty in <b>Ridley Scott's</b><u><b> 
+          </b></u><i>Blade Runner</i>, understanding some of the meaning of life 
+          in his final moments)</font></p>
+      </blockquote>
+      <p><font face="Times New Roman"><font face="Times New Roman">By delving 
+        deep into psychology, the subject becomes simpler. An intelligent system, 
+        whether artificial or natural, must be checked against a surrounding system 
+        (what we might term a <i>meta-system</i>) in order to know the direction 
+        in which to develop itself. In an AI system designed to recognize characters, 
+        &quot;rewards&quot; and &quot;punishments&quot; are employed until the 
+        system learns how to correctly distinguish valid and invalid symbols. 
+        This requires two functions within the system: the ability to exchange 
+        information, and the ability to <i>reflect</i> on this exchange.&nbsp;In 
+        an AI system, this is a controlled, two-step sequence: first information 
+        is processed, then the process is reflected upon. In a person, the information 
+        processing (usually) takes place during the day, and the match against 
+        the &quot;correct&quot; pattern occurs at night, in the form of dreams 
+        in which the events are recollected and compared to our <i>real</i> motives 
+        (the <i>subconscious</i>). The similarity is striking.</font></font></p>
+      <p><font face="Times New Roman"><font face="Times New Roman">Through this 
+        line of reasoning, we can draw the conclusion that people have an internal 
+        system for judging correct action against incorrect action. As if this 
+        wasn't enough, we also know that we can alter the plans by which we act 
+        - i.e., we are not forced to follow a specific path. In this sense, humans 
+        are just as paradoxical as any informal system, since we have the ability 
+        to break out of the system and re-evaluate our objectives.&nbsp;However, 
+        the great philosophers of psychology, <b>Sigmund Freud</b> and <b>Carl 
+        Jung</b>, found that there was a set of symbols and motives that <i>were 
+        not</i> subject to modification, but rather common to all persons. Freud 
+        spoke of the overriding <i>drives</i>, mainly the sexual and survival 
+        drives. Jung expanded the argument to encompass several <i>archetypes</i>, 
+        which referred to certain fundamental notions of what is good and what 
+        is evil.<sup><a href="#FTNT3">(3)</a></sup> These archetypal drives, which 
+        seem to exist in all animals, appears to be the engine that propels humans 
+        into the effort of exploring and trying to understand their environment.</font></font></p>
+      <p><font face="Times New Roman"><font face="Times New Roman">This is the 
+        most fundamental difference between persons and machines. There is nothing 
+        that says that we should have to let intelligent machines be driven by 
+        the same urges as we are. Instead, we can equip them with a <i>drive</i> 
+        to solve the problems for which they were constructed. When the machine 
+        evaluates its own actions, it is then constantly driven towards doing 
+        our bidding. <b>Isaac Asimov</b>, the science-fiction writer, suggested 
+        such things in his robot novels through the concept of the laws of <i>robotics</i>, 
+        by which robots were driven by an almost pathological desire to please 
+        their human masters. This relationship is also found in the modern film 
+        <i>Robocop</i>, in which an android policeman is driven by his will to 
+        indiscriminately uphold the law.</font></font></p>
+      <p><font color="#333333"><b><font face="Times New Roman, Times, serif">Towards 
+        an Artificial Age - AI and Society<br>
+        </font></b></font><font face="Times New Roman">Aspects of AI is mirrored 
+        by the media of our time - <i>Blade Runner </i>is about the difference 
+        between man and machine, AI figures heavily in cyberpunk novels, music 
+        and film, and in 1995 the movie Frankenstein makes a comeback in the theaters. 
+        Coincidence? Hardly.&nbsp;An exciting example of this trend is Arnold 
+        Schwarzenegger's role as the robot in <i>Terminator 2</i>. In the film, 
+        the artificial intelligence holds human characteristics, as a result of 
+        being programmed by a human rebel instead of a brutal military force. 
+        It also touches upon aspects of the consequences of carelessly handling 
+        technology (as when Rabbi L&#246;w lost control of his Golem). Of particular 
+        interest is the scene in which the robot, being machine, simply follows 
+        its programmed instructions to obliterate people standing in its way as 
+        opposed to finding peaceful solutions. The lead character, John (which 
+        incidentally happens to be a skilled hacker), discovers a dangerous &quot;programming 
+        bug&quot; in the robot's instruction set, which he corrects. The message 
+        of the film is that technology and AI are good things - if used properly 
+        and supervised by human agents. The real danger is people's ignorant nonchalance.</font></p>
+      <p><font face="Times New Roman">The Swedish movie <i>Femte Generationen</i> 
+        (&quot;The Fifth Generation&quot;) again deserves being mentioned in this 
+        context. Fifth-generation computer systems are simply another name for 
+        artificially intelligent systems.</font></p>
+      <p><font face="Times New Roman"><b>Lars Gustavsson</b> makes a strong impression 
+        with his beautiful sci-fi novel, <i>Det S&#228;llsamma Djuret Fr&#229;n 
+        Norr</i> (&quot;The Strange Beast from the North&quot;), which treats 
+        the metaphysical aspects of AI in a thorough and entertaining manner. 
+        His thoughts on decentralized intelligence are especially exciting, which 
+        suggest that a society of ants could be considered intelligent, whereas 
+        a single ant could not - and in this manner, all of humanity could be 
+        viewed as one cohesive, intelligent organism. This view is taken from 
+        sociology, which has become very important to AI research.</font></p>
+      <p><font face="Times New Roman">Flows of information are an indication of 
+        intelligence. This is confirmed in the model of society as a unitary sentient 
+        force. The intelligence of individuals and societies are undoubtedly related; 
+        the ability to store and process information through the construction 
+        and dissolution of formal systems is a sign of intelligence. Society is 
+        an organism, but at the same time it is not (yes, this is very Zen). These 
+        ideas go all the way back to the founder of sociology, <b>Auguste Comte</b>. 
+        I have myself coined the term <i>superindividuals</i> as a label for these 
+        macro-intelligences known as <i>corporations, the market, the state, the 
+        capital,</i> and so on. I will return to this subject further ahead.</font></p>
+      <p><font face="Times New Roman">Again, it is possible to emphasize the relatedness 
+        of chaos research and intelligence; intelligence can be seen on many different 
+        levels, each constituting a formal system in itself. One system is akin 
+        to another, and they form as strangely coherent pattern. Our intelligence 
+        seems to be united with our ability to enforce chaos.<br>
+        <br>
+        </font> </p>
+      <p><font face="Times New Roman, Times, serif" color="#333333"><b>Alan Turing 
+        and the Turing Test<br>
+        </b></font><font face="Times New Roman">Alan Turing was one of the very 
+        first people concerned with making machines intelligent. He proposed a 
+        test that could decide whether or not a system was intelligent - the so-called 
+        Turing Test. It consisted of placing a person in a room with a terminal 
+        that was either connected to a terminal controlled by another person, 
+        or to a computer that pretended to be a person. If the test subjects couldn't 
+        tell the difference between man and machine, i. e. that they couldn't 
+        make a correct judgment in half of the cases, the computer could be said 
+        to be intelligent.</font></p>
+      <p><font face="Times New Roman">This test was rather quickly subject to 
+        criticism by way of a theory called The Chinese Room. This entailed running 
+        the Turing Test in Chinese, with a Chinese-speaking person at one terminal 
+        and a person that didn't speak Chinese at the other. For the non-Chinese 
+        person to have a chance to answer the questions posed by the Chinese-speaker, 
+        he/she was to be presented with set of rules consisting of symbols, grammar, 
+        etc., through which sensible answers could be formulated without the subject 
+        knowing an ounce of Chinese. By simply performing lookups in tables and 
+        books it would seem like the person in fact spoke Chinese and was intelligent, 
+        although he or she was just following a set of rules.&nbsp;The little 
+        slave running back and forth, interpreting the Chinese-speaker's questions 
+        without knowing anything, was compared to the hardware of the computer, 
+        the machine. The books and the rules for responding constituted the software, 
+        or the computer program. In this way, it was argued that the computer 
+        couldn't be intelligent, but rather only capable of following given instructions.</font></p>
+      <p><font face="Times New Roman">However, it turned out that this objection 
+        was false. The one that the Chinese-speaker is communicating with is not 
+        solely the person sitting at the other end, but the entire system, including 
+        the terminal, books, rule sets, etc., that the poor stressed-out fellow 
+        in the other room used to formulate answers. Even if the person sitting 
+        at the other end of the line was not intelligent, the system as a whole 
+        was intelligent. The same goes for a computer: even if the machine or 
+        the program is intelligent in itself, the entire system of machine + program 
+        very well could be.&nbsp;The case is the same for a human - a single neuron 
+        in the brain is not intelligent. Not even entire parts of the brain, or 
+        the brain itself, are intelligent, since they cannot communicate. The 
+        system of a person with both a body and a brain, however, can be intelligent!<sup><a href="#FTNT4">(4)</a></sup></font></p>
+      <p><font face="Times New Roman">From this follows the slightly unpleasant 
+        realization that every intelligent system must constantly process information 
+        in order to stay intelligent. We have to accept sensory input and in some 
+        way respond to it to properly be called intelligent. A human without the 
+        ability to receive or express information is therefore not intelligent! 
+        A flow of information is an indication of the presence of intelligence. 
+        From this stems the concept of brain deat - a human without intelligence 
+        is not a human.</font></p>
+      <p><font face="Times New Roman">We might finish this chapter by defining 
+        what intelligence really is (according to Walleij):&nbsp;Intelligence 
+        is the ability to create, within a seemingly chaotic flow of information, 
+        systems for the purpose of sorting and evaluating this flow, and at the 
+        same time incessantly revise and break down these systems in order to 
+        create new ones. (Note that this definition is paradoxical, since it describes 
+        the very process by which the author was able to formulate it. You can't 
+        win&#133; :) <br>
+        </font> </p>
+      <hr>
+      <b><font color="#666666"><a name="FTNT1"></a> </font></b><font color="#666666">1. 
+      </font> <font face="Times New Roman" color="#666666"> Probably a form of 
+      structuralism.</font> <font face="Times New Roman" color="#666666"><br>
+      <br>
+      <a name="FTNT2"></a> 2. &quot;Correct&quot; is always a vague term in the 
+      field of philosophy. Don't take it too literally, and keep in mind that 
+      this is popular science... <br>
+      <br>
+      <a name="FTNT3"></a> 3. Theories which are now out of favor with the established 
+      authorities. Oh well. Enimvero di no quasi pilas homines habent.<br>
+      <br>
+      <a name="FTNT4"></a> 4. Or maybe not. It is impossible for a person to become 
+      intelligent without the society that surrounds her, and therefore it is 
+      the system of human + society that is intelligent&#133; etc. etc</font><b><font face="Times New Roman"><font face="Times New Roman"></font></font><font size=2 face="Times New Roman"><font size=2 face="Times New Roman"></font></font></b></td>
+  </tr>
+</table>
+<p align="center"><FONT SIZE=2 FACE="Times New Roman"><B><BR>
+  </B></FONT><b><FONT SIZE=2 FACE="Times New Roman"><FONT SIZE=2 FACE="Times New Roman"> 
+  </FONT></FONT></b><b><font size=2 face="Times New Roman"><a href="ch10web.htm"><img src="arrowleft.gif" width="45" height="54" align="absmiddle" name="ch1web.htm" border="0"></a><font face="Arial, Helvetica, sans-serif" size="+1" color="#999999"> 
+  <a href="mainindex.htm">INDEX</a> </font><a href="ch12web.htm"><img src="arrowright.gif" width="45" height="54" align="absmiddle" border="0"></a></font></b></p>
+<p align=center> </p>
+<p align=center><font face="Times New Roman, Times, serif"><font size="1">Design 
+  and formatting by <a href="mailto:nirgendwo@usa.net">Daniel Arnrup</a>/<a href="http://www.voodoosystems.nu">Voodoo 
+  Systems</a></font></font></p>
+<FONT SIZE=2 FACE="Times New Roman">
+<P ALIGN=CENTER>&nbsp;</P>
+</FONT>
+</BODY>
+</HTML>
