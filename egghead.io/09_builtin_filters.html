@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AngularJS Tutorial</title>
+    <script type="text/javascript" src="../angular/angular.js"></script>
+    <script type="text/javascript" src="builtin_filters.js"></script>
+</head>
+</body>
+
+<div ng-app="vingApp">
+    <div ng-controller="vingCtrl">
+        <input type=text ng-model="searchText" placeholder="Filtre aqui por qquer parte" size=35>
+        <table>
+            <tr ng-repeat="ator in vings.cast | orderBy: 'char' | limitTo: 10|filter:searchText">
+                <td>{{ator.nome | lowercase}}</td>
+                <td>{{ator.char | uppercase}}</td>
+            </tr>
+        </table>
+        <hr>
+        <input type=text ng-model="pessoa.nome" placeholder="Filtre aqui por nome" size=25>
+        <table>
+            <tr ng-repeat="ator in vings.cast | filter: pessoa | orderBy: '-char'">
+                <td>{{ator.nome}}</td>
+                <td>{{ator.char}}</td>
+            </tr>
+        </table>
+        <hr>
+        <!-- Dentro do modelo, o heroi eh o objeto, e estamos pegando o
+        atributo char deste objeto. Ao usar nomes iguais, fazemos referencia ao
+        mesmo objeto, e isso compromete o comportamento dos filtros -->
+        <input type=text ng-model="heroi.char" placeholder="Filtre aqui por char" size=25>
+        <table>
+            <tr ng-repeat="ator in vings.cast | filter: heroi|orderBy: 'nome'|limitTo:-3">
+                <td>{{ator.nome}}</td>
+                <td>{{ator.char}}</td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>
+

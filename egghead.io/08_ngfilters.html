@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AngularJS Tutorial</title>
+    <script type="text/javascript" src="../angular/angular.js"></script>
+    <script type="text/javascript" src="ngfilters.js"></script>
+</head>
+</body>
+
+<div ng-app="vingApp">
+    <div ng-controller="vingCtrl">
+        <input type=text ng-model="searchText" placeholder="Filtre aqui por qquer parte" size=35>
+        <table>
+            <tr ng-repeat="ator in vings.cast | filter: searchText">
+                <td>{{ator.nome}}</td>
+                <td>{{ator.char}}</td>
+            </tr>
+        </table>
+        <hr>
+        <input type=text ng-model="search.name" placeholder="Filtre aqui por nome" size=25>
+        <table>
+            <tr ng-repeat="ator in vings.cast | filter: search.name">
+                <td>{{ator.nome}}</td>
+                <td>{{ator.char}}</td>
+            </tr>
+        </table>
+        <hr>
+        <input type=text ng-model="search.char" placeholder="Filtre aqui por char" size=25>
+        <table>
+            <tr ng-repeat="ator in vings.cast | filter: search.char">
+                <td>{{ator.nome}}</td>
+                <td>{{ator.char}}</td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>
+

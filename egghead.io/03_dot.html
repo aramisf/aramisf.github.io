@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AngularJS Tutorial</title>
+    <script type='text/javascript' src='dot.js'></script>
+</head>
+</body>
+
+<div ng-app="">
+    <!-- O . que separa 'd' de 'msg' indica que 'd' eh um objeto dentro do
+    escopo mais externo, sem ele, nao ocorre ligacao entre os campos. Dentro
+    dele, o campo 'msg' eh compartilhado entre os subescopos.
+
+    Como 'd' esta sendo definido dentro do div acima, ele eh valido para todos
+    os escopos dentro do div citado. Caso nao fosse definido, cada um dos divs
+    abaixo teria o seu proprio 'd' e ambos seria independentes (nao haveria
+    binding).
+    -->
+    <input type="text" ng-model="d.msg">
+    <h1>{{d.msg}}</h1>
+    <div ng-controller="umCtrl">
+        <input type="text" ng-model="d.msg">
+        <h1>{{d.msg}}</h1>
+    </div>
+    <div ng-controller="doisCtrl">
+        <input type="text" ng-model="d.msg">
+        <h1>{{d.msg}}</h1>
+    </div>
+</div>
+
+<script type="text/javascript" src="../angular/angular.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AngularJS Tutorial</title>
+</head>
+</body>
+
+<div ng-app="">
+    <input type="text" ng-model="data.msg" placeholder="O que vc digitar aqui">
+    <h1>Vai aparecer aqui: '{{data.msg}}'</h1>
+    Outros exemplos:
+    <h3>{{"prefixo " + data.msg + " sufixo"}}</h3>
+    <!--div class="{{data.msg}}">Digite uma classe css</div-->
+    <h3>2*2 = {{2*2}}</h3>
+    <h3>3+5 = {{3+5}}</h3>
+    <h3>{{"string " + "concatenada"}}</h3>
+</div>
+
+<script type="text/javascript" src="../angular/angular.js"></script>
+</body>
+</html>
+
