@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>HTML5 FTW \o/\o/\o/</title>
+        <link rel="stylesheet" type="text/css" href="stilo.css">
+        <script type="text/javascript" src="script.js"></script>
+    </head>
+    <body onload=abre_link("home.html")>
+        <!-- AE, olha q susse o html5 -->
+        <nav class="menu">
+            <h2 class="titulo_menu">Non-ergonomic menu:</h2>
+            <ul>
+            <li><a href="#" onclick=abre_link("dimitri.html")>Dimitri</a><br></li>
+            <li><a href="#" onclick=abre_link("cib.html")>Ciborgue</a><br></li>
+            <li><a href="#" onclick=abre_link("kilian.html")>Skate</a><br></li>
+            <li><a href="#" onclick=abre_link("audiomago.html")>Audiomago</a><br></li>
+            <li><a href="#" onclick=abre_link("home.html")>Home</a><br></li>
+            </ul>
+        </nav>
+
+        <div class="conteudo" id="conteudo" name="conteudo">
+        </div>
+    </body>
+</html>

@@ -1,0 +1,250 @@
+<!--
+# vim: foldmethod=manual:ts=4:et
+-->
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Canvas, madafacas!</title>
+        <link rel="stylesheet" type="text/css" href="stilo.css">
+    </head>
+    <body oncontextmenu="javascript:return false;">
+        <div id="centro">
+        <canvas id="quadro" width=800 height=350 style="border:2px solid #5a5;"
+         onmouseout="limpaCoordenadas()">
+        </canvas>
+        <div id="coord">Coordenadas: </div>
+        </div>
+        <script type="text/javascript">
+
+            // Vamos manter um conjunto de variaveis globais aqui:
+            var canvas = document.getElementById("quadro");
+            var context = canvas.getContext('2d');
+
+            var AA = new ponto(50,175);
+            var BB = new ponto(750,175);
+
+            var A = new ponto(50,175);
+            var B = new ponto(750,175);
+            //var C = calculaCentro(A, B);
+            var C = new ponto(500, 283);
+
+            //alert("C.central: "+C.central+"\nC.x: "+C.x+"\nC.y: "+C.y+"\nC.canto: "+C.canto);
+
+            var grab = false;
+            var minDist = 30;
+
+            var pontos = new listaDePontos();
+            pontos.append(A);
+            pontos.append(C);
+            pontos.append(B);
+
+            // Objeto ponto, com informacoes referentes `a sua natureza
+            function ponto (x, y, central, canto) {
+
+                this.x = x?x:canvas.width/2;
+                this.y = y?y:canvas.height/2;
+
+                this.central = central?central:false;
+                this.canto = canto?canto:true;
+
+                this.ant = null;
+                this.prox = null;
+            }
+
+            function listaDePontos() {
+
+                this.l = Array();
+
+                if (this.l.length == 0) {
+
+                    this.l[this.l.length] = new ponto();
+                }
+
+                this.append = function (ponto) {
+
+                    alert("Tam antes: "+this.l.length);
+                    this.l[this.l.length].prox = ponto;
+                    this.l[this.l.length+1] = ponto;
+                    this.l[this.l.length].ant = this[this.length-1];
+                    alert("Tam depois: "+this.l.length);
+                }
+
+                this.noMeio = function (anterior, este, proximo) {
+
+                }
+            }
+
+            // Retorna as coordenadas do ponteiro do mouse.
+            function coordenadas(canvas, evt) {
+
+                var rect = canvas.getBoundingClientRect();
+                return {
+                    x: evt.clientX - rect.left,
+                    y: evt.clientY - rect.top
+                };
+            }
+
+            // Retorna a distancia entre dois pontos, como um par ordenado. Uma
+            // vez que um ponto em um plano eh representado por duas
+            // coordenadas, cada um dos parametros eh um par ordenado
+            function calculaDist(c1,c2,abs) {
+
+                var myDist = { };
+
+                if (abs == 0) {
+
+                    myDist.x = c2.x - c1.x;
+                    myDist.y = c2.y - c1.y;
+                }
+                if (abs == 1) {
+
+                    myDist.x = Math.abs(c2.x - c1.x);
+                    myDist.y = Math.abs(c2.y - c1.y);
+                }
+
+                return myDist;
+            }
+
+            // Firulas inicias:
+            function mostraCoordenadas(x,y) {
+                document.getElementById("coord").innerHTML = "Coordenadas: "+x+", "+y;
+            }
+            function limpaCoordenadas() {
+                document.getElementById("coord").innerHTML = "Coordenadas: ";
+            }
+
+
+            // Recebe os dois pontos dentro do canvas, referentes aa origem a ao
+            // destino da reta
+            function riscaCanvas () {
+
+                // Processo para desenhar uma linha reta
+                context.beginPath();
+                context.clearRect(0, 0, canvas.width, canvas.height);
+
+                var tam = pontos.length;
+                //alert("Total de "+tam+"pontos");    
+                for (var i=0; i < tam-1; i++) {
+
+                    if (pontos[i].canto) {
+
+                        context.moveTo(pontos[i].x, pontos[i].y);
+                        context.lineTo(pontos[i+1].x, pontos[i+1].y);
+                    }
+                }
+                context.closePath();
+                context.stroke();
+
+                // Atualiza valores globais:
+                /*A = a;
+                B = b;
+                C = calculaCentro(A, B);*/
+
+            }
+
+            function calculaCentro(a, b) {
+
+                var centro = { };
+
+                // Quando a reta for horizontal
+                if (Math.abs(b.x - a.x) == 0) {
+                    centro.x = a.x;
+                }
+                else {
+                    centro.x = Math.abs((b.x - a.x)/2 + a.x);
+                }
+
+                // Quando a reta for vertical
+                if (Math.abs(b.y - a.y) == 0) {
+                    centro.y = a.y;
+                }
+                else {
+                    centro.y = Math.abs((b.y - a.y)/2 + a.y);
+                }
+
+                //return centro;
+                return new ponto(centro.x,centro.y, canto = false, central = true);
+            }
+
+            // INICIO:
+            // Aqui eh feito o desenho inicial, um risco no centro do canvas:
+            riscaCanvas();
+
+            // Depois disso sao adicionados os eventos:
+            canvas.addEventListener("mousedown", function (evt) {
+
+                var mause = coordenadas(canvas, evt);
+                var desloc_A = calculaDist(A,mause,1);
+                var desloc_B = calculaDist(B,mause,1);
+
+                // Testa se o clique foi em alguma regiao clicavel. (Se prepara
+                // pq pode ser um pouco tenso)
+                if ((Math.abs(desloc_A.x) <= minDist && Math.abs(desloc_A.y) <= minDist) ||
+                    (Math.abs(desloc_B.x) <= minDist && Math.abs(desloc_B.y) <= minDist) ||
+                    (mause.x <= C.x+minDist && mause.x >= C.x-minDist) &&
+                    (mause.y <= C.y+minDist && mause.y >= C.y-minDist)
+                    ) {
+
+                    grab = true;
+                }
+            }
+            , false);
+
+
+            canvas.addEventListener('mouseup', function (evt) {
+
+                grab = false;
+            }, false);
+
+            canvas.addEventListener('mousemove', function(evt) {
+
+                var mause = coordenadas(canvas, evt);
+
+                mostraCoordenadas(mause.x,mause.y);
+                
+                if (grab) {
+
+                    var Ax = Math.abs(mause.x - A.x);
+                    var Ay = Math.abs(mause.y - A.y);
+                    var Bx = Math.abs(mause.x - B.x);
+                    var By = Math.abs(mause.y - B.y);
+                    var a = {};
+                    var b = {};
+
+                    var desloc = calculaDist(C,mause,0);
+
+
+                    // Se clicar nas pontas:
+                    if (Ax <= minDist && Ay <= minDist) {
+
+                        riscaCanvas(mause, B);
+                    }
+                    else if (Bx <= minDist && By <= minDist) {
+
+                        riscaCanvas(A, mause);
+                    }
+
+                    // ou no centro:
+                    else if ((mause.x <= C.x+minDist && mause.x >= C.x-minDist) &&
+                             (mause.y <= C.y+minDist && mause.y >= C.y-minDist)) {
+
+                        // mover a reta toda:
+                        a.x = A.x + desloc.x;
+                        a.y = A.y + desloc.y;
+                        b.x = B.x + desloc.x;
+                        b.y = B.y + desloc.y;
+                        //alert("a.x = "+a.x);
+
+                        riscaCanvas(a,b);
+                    }
+                    // se for em outro lugar:
+                    else {
+                        // nada
+                    }
+                }
+            }, false);
+
+
+        </script>
+    </body>
+</html>
