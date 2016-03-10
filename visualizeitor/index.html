@@ -1,0 +1,465 @@
+<!--
+vim:ts=2:foldmethod=manual
+-->
+<html>
+<head><title>Visualizeitor</title>
+<style>
+table {
+  margin: 30px;
+  align: center;
+}
+td {
+  text-align: center;
+}
+</style>
+<script type="text/javascript"
+src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+  // Criando a estrutura aluno, contendo todas as caracteristicas
+  // discriminadas no xml:
+  var Alunos = new Array();
+
+  //alert("Carregando dados!");
+  $(function init() {
+    $.ajax({
+    type: 'GET',
+    url: 'alunos.xml',
+    dataType: 'xml',
+    success: function(xml) {
+
+      // TODO: Jogo tudo num array ou o que?
+      $(xml).find('ALUNO').each(function() {
+
+      var hash = new Object();
+
+      var MATR_ALUNO        = $(this).find('MATR_ALUNO').text();
+      var NOME_ALUNO        = $(this).find('NOME_ALUNO').text();
+      var COD_ATIV_CURRIC   = $(this).find('COD_ATIV_CURRIC').text();
+      var NOME_ATIV_CURRIC  = $(this).find('NOME_ATIV_CURRIC').text();
+
+      //
+      // De todos os itens, selecionamos apenas os necessários:
+      //
+      MATR_ALUNO            = MATR_ALUNO;
+      COD_ATIV_CURRIC       = COD_ATIV_CURRIC;
+      NOME_ATIV_CURRIC      = NOME_ATIV_CURRIC;
+      hash.ANO              = $(this).find('ANO').text();
+      hash.MEDIA_FINAL      = $(this).find('MEDIA_FINAL').text();
+      hash.PERIODO          = $(this).find('PERIODO').text();
+      hash.FREQUENCIA       = $(this).find('FREQUENCIA').text();
+      hash.SIGLA            = $(this).find('SIGLA').text();
+      hash.DESCR_ESTRUTURA  = $(this).find('DESCR_ESTRUTURA').text();
+/****************************************************************************/
+      //hash.ID_CURSO_ALUNO      = $(this).find('ID_CURSO_ALUNO').text();
+      //hash.ID_VERSAO_CURSO     = $(this).find('ID_VERSAO_CURSO').text();
+      //hash.NOME_ALUNO          = $(this).find('NOME_ALUNO').text();
+      //hash.COD_CURSO           = $(this).find('COD_CURSO').text();
+      //hash.NOME_CURSO          = $(this).find('NOME_CURSO').text();
+      //hash.NUM_VERSAO          = $(this).find('NUM_VERSAO').text();
+      //hash.ID_CURRIC_ALUNO     = $(this).find('ID_CURRIC_ALUNO').text();
+      //hash.ID_ATIV_CURRIC      = $(this).find('ID_ATIV_CURRIC').text();
+      //hash.SITUACAO_ITEM       = $(this).find('SITUACAO_ITEM').text();
+      //hash.SITUACAO            = $(this).find('SITUACAO').text();
+      //hash.CREDITOS            = $(this).find('CREDITOS').text();
+      //hash.CH_TOTAL            = $(this).find('CH_TOTAL').text();
+      //hash.ID_LOCAL_DISPENSA   = $(this).find('ID_LOCAL_DISPENSA').text();
+      //hash.CONCEITO            = $(this).find('CONCEITO').text();
+      //hash.ID_NOTA             = $(this).find('ID_NOTA').text();
+      //hash.ID_ESTRUTURA        = $(this).find('ID_ESTRUTURA').text();
+      //hash.MEDIA_CREDITO       = $(this).find('MEDIA_CREDITO').text();
+      //hash.SITUACAO_CURRICULO  = $(this).find('SITUACAO_CURRICULO').text();
+
+      if (!Alunos[MATR_ALUNO]) {
+        Alunos[MATR_ALUNO] = new Array();
+        Alunos[MATR_ALUNO].nome = NOME_ALUNO;
+      }
+
+      if (!Alunos[MATR_ALUNO][COD_ATIV_CURRIC]) {
+        Alunos[MATR_ALUNO][COD_ATIV_CURRIC] = new Array();
+        Alunos[MATR_ALUNO][COD_ATIV_CURRIC].nome = NOME_ATIV_CURRIC;
+      }
+
+      Alunos[MATR_ALUNO][COD_ATIV_CURRIC].push(hash);
+      hash = null;
+
+      }); // /each
+      preenche_select();
+
+      // A entrada ja parece ordenada
+      //ordena_historico(0, Alunos[MATR_ALUNO][COD_ATIV_CURRIC].length);
+
+    } // /success
+    }); // /ajax
+  }); // /init
+
+  function preenche_select() {
+
+    for (var k in Alunos) {
+
+      $('<option>'+k+'</option>').appendTo('#GRRs');
+    }
+  }
+
+  /* Ordena as disciplinas pela ordem em que foram cursadas */
+  function ordena_historico(inicio, fim) {
+
+    if (fim < inicio) { return fim+1; }
+
+    var pivo = fim / 2;
+
+
+  } // /ordena_historico
+
+  function desenha_tabela() {
+
+    var grr = document.getElementById('GRRs').value;
+
+    if (grr == "-- GRRs aqui --") {
+
+      $('#tabela').find('td').css('background','#fff');
+      $('#Opt0').text("CIXXX");
+      $('#Opt1').text("CIXXX");
+      $('#Opt2').text("CIXXX");
+      $('#Opt3').text("CIXXX");
+      $('#Opt4').text("CIXXX");
+      $('#Opt5').text("CIXXX");
+      $('#Opt6').text("CIXXX");
+      $('#Opt7').text("CIXXX");
+      $('#Opt8').text("CIXXX");
+      $('#tg1').text("CITG1");
+      $('#tg2').text("CITG2");
+      return;
+    }
+
+    $('#tabela').find('td').css('background','#fff');
+    $('#Opt0').text("CIXXX");
+    $('#Opt1').text("CIXXX");
+    $('#Opt2').text("CIXXX");
+    $('#Opt3').text("CIXXX");
+    $('#Opt4').text("CIXXX");
+    $('#Opt5').text("CIXXX");
+    $('#Opt6').text("CIXXX");
+    $('#Opt7').text("CIXXX");
+    $('#Opt8').text("CIXXX");
+    $('#tg1').text("CITG1");
+    $('#tg2').text("CITG2");
+
+    if (Alunos[grr] !== null) {
+
+      // K1 -> Disciplinas, contendo um array de hashes
+      for (disc in Alunos[grr]) {
+
+        if (disc == 'nome') { continue; }
+        for (var i=0; i < Alunos[grr][disc].length; i++) {
+
+          // Pegando o ultimo elemento do array;
+          var objeto = Alunos[grr][disc][Alunos[grr][disc].length-1];
+
+          var ano       = objeto.ANO;
+          var media     = objeto.MEDIA_FINAL;
+          var periodo   = objeto.PERIODO;
+          var freq      = objeto.FREQUENCIA;
+          var situacao  = objeto.SIGLA;
+          var estrutura = objeto.DESCR_ESTRUTURA;
+
+          var color;
+
+
+          switch(situacao) {
+
+            case "Aprovado":
+              color = "#0f0";
+              break;
+
+            case "Reprovado":
+              color = "#E77471";
+              break;
+
+            case "Cancelado":
+              color = "#f93";
+              break;
+
+            case "Tr. Total":
+              color = "#aaa";
+              break;
+
+            case "Repr. Freq":
+              color = "#E77471";
+              break;
+
+            case "TrancAdm":
+              color = "#aaa";
+              break;
+
+            case "Matricula":
+              color = "#77f";
+              break;
+
+            case "Disp. c/nt":
+              color = "#4E9258";
+              break;
+
+            case "Equivale":
+              color = "#ff0";
+              break;
+
+            // cor para deteccao de erros
+            default:
+              color = "#ECE5B6";
+              break;
+          }
+
+
+          $('#tabela').find('td').each(function () {
+
+            // TODO: Adicionar os eventos de cliques
+            var skip = /[1-8]o Periodo/;
+            var texto = $(this).text();
+
+            //if (texto == '') { return false; }
+            if (!skip.test(texto)) {
+
+              if ($(this).html() == disc) {
+                $(this).css('background', color);
+              }
+              // Optativas
+              else if (estrutura == "Optativas") {
+
+                if ($(this).text() == "CIXXX") {
+
+                  $(this).css('background', color);
+                  $(this).text(disc);
+                  //color = null;
+                  return false; // -> Miiiiiiiiitiicoooo!!!
+                }
+
+              } // /elze
+              // TGs
+              else {
+
+                var tg1 = /Trabalho de Gradua..o I/;
+                var tg2 = /Trabalho de Gradua..o II/;
+
+                if ($(this).html() == "CITG1" && tg1.test(estrutura)) {
+
+                  $(this).css('background', color);
+                  $(this).text(disc);
+                }
+
+                else if ($(this).html() == "CITG2" && tg2.test(estrutura)) {
+
+                  $(this).css('background', color);
+                  $(this).text(disc);
+                }
+
+              } // /else -> tgs
+            } // if skip.test
+          } // /function do each
+          ); // /each
+          //break;
+
+        } // for (k in Alunos[grr][i])
+      }// for (k1 in Alunos[grr])
+    }// if (Alunos[grr] !== null)
+  }// /desenha_tabela
+
+  //jQuery(document).ready(init);
+
+$(top.document).ready(function () {
+    $('td').click(capturaClique);
+});
+
+function capturaClique(e) {
+
+    var clique = e.target;
+    var grr = document.getElementById('GRRs').value;
+    var valida_grr = /^GRR[0-9]{8}$/;
+    var disc = clique.innerHTML;
+
+    // Se nao clicar em quadrado branco nem tiver grr nao escolhido, vai
+    if (disc.length != 0 &&
+        valida_grr.test(grr) &&
+        Alunos[grr][disc]) {
+
+      var excecao = /^[A-Z]{2}/;
+
+      if (excecao.test(disc)) {
+
+        var nome = Alunos[grr][disc].nome;
+        var msg = disc+": "+nome+"\n";
+
+        if (e.button == 0) {
+
+          var objeto = Alunos[grr][disc][Alunos[grr][disc].length-1];
+          for (k in objeto) {
+
+            if (k == "SIGLA") { continue; }
+            if (k == "DESCR_ESTRUTURA") { continue; }
+            msg += "\n"+k+" "+objeto[k];
+          }
+
+          alert(msg);
+        }
+        else if (e.button == 2) {
+
+          var lista = Alunos[grr][disc];
+
+          for (var i=0; i < lista.length; i++) {
+
+            var objeto = lista[i];
+            for (k in objeto) {
+
+              if (k == "SIGLA") { continue; }
+              if (k == "DESCR_ESTRUTURA") { continue; }
+              msg += "\n"+k+" "+objeto[k];
+            }
+            msg += "\n----------\n";
+          }
+
+          alert(msg);
+        }
+      } // if excecao.test
+    } // if disc.length
+};
+$(function() {
+  $(this).bind("contextmenu", function(e) {
+    if (e.button == 2) {
+      capturaClique(e);
+    }
+    e.preventDefault();
+  });
+});
+</script>
+</head>
+<!-- <body oncontextmenu="javascript:return false;"> -->
+<body>
+  Escolha o GRR:
+  <select id="GRRs" onchange="javascript:desenha_tabela()">
+    <option selected="true">-- GRRs aqui --</option>
+  </select>
+
+  <table id="tabela" border=2 align="center">
+  <tr><th colspan="8" align="center">Disciplinas</th></tr>
+  <tr>
+    <tr id=titulo>
+      <td>1o Periodo</td>
+      <td>2o Periodo</td>
+      <td>3o Periodo</td>
+      <td>4o Periodo</td>
+      <td>5o Periodo</td>
+      <td>6o Periodo</td>
+      <td>7o Periodo</td>
+      <td>8o Periodo</td>
+    </tr>
+    <!-- 1a linha -->
+    <tr>
+      <td>CI055</td>
+      <td>CI056</td>
+      <td>CI057</td>
+      <td>CI065</td>
+      <td>CI058</td>
+      <td>CI061</td>
+      <td id="tg1">CITG1</td>
+      <td id="tg2">CITG2</td>
+    </tr>
+    <!-- 2a linha -->
+    <tr>
+      <td>CI066</td>
+      <td>CI067</td>
+      <td>CI064</td>
+      <td>CM224</td>
+      <td>CI062</td>
+      <td>CI214</td>
+      <td>CI220</td>
+      <td id="Opt0">CIXXX</td>
+    </tr>
+    <!-- 3a linha -->
+    <tr>
+      <td>CI063</td>
+      <td>CI068</td>
+      <td>CI210</td>
+      <td>CI212</td>
+      <td>CI215</td>
+      <td>CI218</td>
+      <td id="Opt1">CIXXX</td>
+      <td id="Opt2">CIXXX</td>
+    </tr>
+    <!-- 4a linha -->
+    <tr>
+      <td>CM046</td>
+      <td>CM005</td>
+      <td>CI237</td>
+      <td>CI059</td>
+      <td>CI211</td>
+      <td id="Opt3">CIXXX</td>
+      <td id="Opt4">CIXXX</td>
+      <td id="Opt5">CIXXX</td>
+    </tr>
+    <!-- 5a linha -->
+    <tr>
+      <td>CM201</td>
+      <td>CI202</td>
+      <td>CE003</td>
+      <td>CI219</td>
+      <td>SIN070</td>
+      <td id="Opt6">CIXXX</td>
+      <td>CI221</td>
+      <td id="Opt7">CIXXX</td>
+    </tr>
+    <!-- 6a linha -->
+    <tr>
+      <td>CM045</td>
+      <td>CM202</td>
+      <td>SA214</td>
+      <td>CI060</td>
+      <td>CI235</td>
+      <td>CI236</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <!-- 7a linha -->
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>CI069</td>
+      <td id="Opt8">CIXXX</td>
+      <td></td>
+      <td></td>
+      <td></td>
+  </tr>
+    <!-- 8a linha -->
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>TP052</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+  </tr>
+  </table>
+
+  <table align="center" border=1>
+  <th colspan="4">Legenda:</th>
+  <tr><td bgcolor="#E77471">Reprovado</td>
+      <td bgcolor="#0f0">Aprovado</td>
+      <td bgcolor="#77f">Matriculado</td>
+      <td bgcolor="#fff">N&atilde;o Cursado</td>
+  </tr>
+  <tr><td bgcolor="#f93">Cancelamento</td>
+      <td bgcolor="#ff0">Equival&ecirc;ncia</td>
+      <td bgcolor="#4E9258">Dispensa</td>
+      <td bgcolor="#aaa">Trancamento</td>
+  </tr>
+  <tr>
+      <td bgcolor="#ECE5B6"
+      title="Dados inconsistentes no arquivo fonte"
+      colspan="4">Inconsist&ecirc;ncia</td>
+  </tr>
+  </table>
+</body>
+</html>
